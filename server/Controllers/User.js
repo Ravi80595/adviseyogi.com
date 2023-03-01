@@ -10,7 +10,7 @@ export const register = async (req,res)=>{
         }else{
             const newUser = new User({fullName})
             const saveUser = await newUser.save()
-            res.status(201).send({"msg":"User Saved Successfully"})
+            res.status(201).send({"msg":"User Saved Successfully",saveUser})
         }
     }
     catch(err){
@@ -28,6 +28,18 @@ export const searchUser=async(req,res)=>{
         const users= await User.find({fullName:{$regex:req.params.id}})
         res.send(users)
     }catch (err) {
+        console.log(err)
+    }
+}
+
+
+// ........................... All User Get Method Admin ...............................
+
+export const AllUser = async(req,res)=>{
+    try{
+        const users = await User.find()
+        res.status(200).send(users)
+    }catch(err){
         console.log(err)
     }
 }

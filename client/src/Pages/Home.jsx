@@ -20,6 +20,7 @@ axios.post('http://localhost:3002/user/register',payload)
 .then((res)=>{
   console.log(res)
   alert(res.data.msg)
+  localStorage.setItem("adviseyogi",JSON.stringify(res.data.saveUser))
 })
 .catch((err)=>{
   console.log(err)

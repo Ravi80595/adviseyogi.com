@@ -3,6 +3,7 @@ import express from 'express'
 import userRoutes from "./routes/users.js"
 import dotenv from "dotenv"
 import mongoose from 'mongoose'
+import postRoutes from "./routes/posts.js"
 
 
 dotenv.config()
@@ -15,6 +16,7 @@ app.get('/',(req,res)=>{
 })
 
 app.use("/user",userRoutes)
+app.use("/post",postRoutes)
 
 
             // Database connection
