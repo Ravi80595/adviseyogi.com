@@ -19,11 +19,14 @@ return (
         <Button p={7} bg='transparent' border='2px solid black'>Add Comment</Button>
         </Flex>
       </Flex>
-      <Box w='80%' border='2px solid black'>
+      <Box borderRadius={20} p={5} m='auto' w='90%' mt={10} border='2px solid black'>
         <Text>Find a friend fast.</Text>
-        <Flex>
+        <Flex pt={5} justifyContent="space-around">
             <Text>2d</Text>
-            <Text><SlLike/></Text>
+            <Flex>
+            <SlLike/>
+            <Text>2</Text>
+            </Flex>
         </Flex>
       </Box>
     </Box>
