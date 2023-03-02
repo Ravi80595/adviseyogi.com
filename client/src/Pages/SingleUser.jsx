@@ -1,10 +1,12 @@
-import { Box,Flex,Heading,Button,Text,Input,useDisclosure,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody, Textarea} from '@chakra-ui/react'
+import { Box,Flex,Heading,Button,Text,useDisclosure,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody, Textarea,Spinner} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import {SlLike} from 'react-icons/sl'
+import {BiLike} from 'react-icons/bi'
 import { baseUrl } from '../Components/BaseUrl'
+import {AiTwotoneLike} from "react-icons/ai"
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import MyComponent from '../Components/Date'
 
 
 const SingleUser = () => {
@@ -14,10 +16,12 @@ const SingleUser = () => {
   const [loading,setLoading]=useState(false)
   const [posts,setPosts]=useState([])
   const {id}=useParams()
+  const [name,setName]=useState('')
 
 useEffect(()=>{
   getSingleComments()
 },[])
+
 
 const getSingleComments=()=>{
   setLoading(true)
@@ -43,8 +47,32 @@ const addComment=()=>{
   axios.post(`${baseUrl}/post/addComment`,payload)
   .then((res)=>{
     console.log(res)
+    alert("Comment added")
+    setComment(" ")
   })
+  .catch((err)=>{
+    console.log(err)
+})
 }
+
+
+
+const likePost=(id)=>{
+  console.log("cliked",_id,id)
+axios.patch(`${baseUrl}/post/like/${id}`,{userId:_id})
+.then((res)=>{
+  console.log(res)
+  getSingleComments()
+})
+.catch((err)=>{
+  console.log(err)
+})
+}
+
+if(loading){
+  return <Spinner textAlign='center' mt={50} ml={50} thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='xl'/>
+}
+
 
 return (
   <Box>
@@ -65,14 +93,15 @@ return (
       </Flex>
       {
         posts && posts.map(ele=>(
-
-
       <Box borderRadius={20} fontSize="24px" p={5} m='auto' w='90%' mt={10} border='2px solid black'>
         <Text>{ele.text}</Text>
         <Flex w='15%' pt={5} justifyContent="space-around">
-            <Text>2 d</Text>
+            {/* <Text>d</Text> */}
+            <MyComponent props={ele}/>
             <Flex>
-            <SlLike/>
+            {
+            ele.likes.includes(_id)?<AiTwotoneLike onClick={()=>likePost(ele._id)} fontSize='25px' cursor={"pointer"} color="red"/>:<BiLike onClick={()=>likePost(ele._id)} fontSize='25px' cursor={"pointer"}/>
+          }
             <Text pl={2}> {ele.likes.length}</Text>
             </Flex>
         </Flex>
@@ -88,7 +117,7 @@ return (
           </ModalHeader>
             <ModalBody>
                 <Box mb={20}>
-                    <Textarea border='1px solid red' onChange={(e)=>setComment(e.target.value)} p={5} mt='70px' placeholder='Add your comment/advise '/>
+                    <Textarea border='1px solid red' value={comment} onChange={(e)=>setComment(e.target.value)} p={5} mt='70px' placeholder='Add your comment/advise '/>
                     <Box textAlign='center' pt='20px'>
                     <Button onClick={addComment} p={6} bg='black' color='white'>Send</Button>
                     </Box>

@@ -74,3 +74,25 @@ export const ApproveComments = async(req,res)=>{
         console.log(err)
     }
 }
+
+// ........................... Post Like Method ...............................
+
+export const likePost = async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const {userId}=req.body;
+        const post = await Post.findById(id)
+        
+        if(post.likes.includes(userId)){
+            post.likes=post.likes.filter((id)=>id!==userId)
+        }else{
+            post.likes.push(userId)
+        }
+        await post.save()
+        const posts = await Post.find()
+        res.status(200).json(posts)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
