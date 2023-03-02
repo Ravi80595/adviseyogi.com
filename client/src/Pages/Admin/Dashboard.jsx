@@ -1,6 +1,6 @@
 import React from 'react'
 import "./Dashboard.css"
-import { Flex,Box,Text} from '@chakra-ui/react'
+import { Flex,Box,Text, Button} from '@chakra-ui/react'
 import { useState } from 'react'
 import UsersPage from './UsersPage'
 import {FaUserAlt} from "react-icons/fa"
@@ -8,11 +8,18 @@ import {RiAdminFill} from "react-icons/ri"
 import {GiPostStamp} from "react-icons/gi"
 import AllComments from './AllComments'
 import Approved from './Approved'
+import { useNavigate } from 'react-router-dom'
 
 
 
 const Dashboard = () => {
     const [show,setShow]=useState("Users")
+    const navigate=useNavigate()
+
+const handleLogout=()=>{
+    localStorage.setItem('isAdviseYogiAuth',JSON.stringify(null))
+    navigate("/admin/login")
+}
 
 
 return (
@@ -37,7 +44,10 @@ return (
         </Box>
         <Box id='rhsBox' w='84%' ml='16%' h='auto'> 
         <Box id='navbarBox'  p='0px 40px'>
-        <Text pt={3} mb={3} fontWeight='bold'>Welcome To Dashboard</Text>
+        <Flex justifyContent='space-between'>
+            <Text pt={3} mb={3} fontWeight='bold'>Welcome To Dashboard</Text>
+            <Button mt={2} onClick={handleLogout}>Logout</Button>
+        </Flex>
      </Box>
     <Box id='rhsBody' m='30px' p='30px'>
 

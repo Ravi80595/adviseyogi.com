@@ -1,3 +1,4 @@
+import Emails from "../models/Notifier.js"
 import Post from "../models/Post.js"
 import User from "../models/User.js"
 
@@ -15,7 +16,6 @@ export const createPost = async(req,res)=>{
             username,
             likes:[],
         })
-        console.log(newPost)
         await newPost.save()
         const post = await Post.find()
         res.status(200).json(post)
@@ -32,7 +32,6 @@ export const createPost = async(req,res)=>{
 export const getUserPosts = async(req,res)=>{
     const {id}=req.params
     try{
-        console.log(id)
         const post = await Post.find({$and:[{userId:id},{approved:true}]})
         res.status(200).json(post)
     }
@@ -75,6 +74,20 @@ export const ApproveComments = async(req,res)=>{
     }
 }
 
+
+// ...................... Posts text Update method ............................
+
+export const EditComments = async(req,res)=>{
+    try{
+        const {id}=req.params
+        const {newText}= req.body
+        const posts = await Post.findByIdAndUpdate({_id:id},{text:newText})
+        res.status(200).send(posts)
+    }catch(err){
+        console.log(err)
+    }
+}
+
 // ........................... Post Like Method ...............................
 
 export const likePost = async(req,res)=>{
@@ -91,6 +104,29 @@ export const likePost = async(req,res)=>{
         await post.save()
         const posts = await Post.find()
         res.status(200).json(posts)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+
+// ........................... Adding Email for Notification ...............................
+
+export const Allmails = async(req,res)=>{
+    try{
+        const {gmail}=req.body
+        const r = new Emails()
+        await r.save()
+        const email= await Emails.findOne()
+        
+        if(email.emails.includes(gmail)){
+            res.send({"msg":"Notification already enabled for this mail"})
+        }else{
+            email.emails.push(gmail)
+        }
+        await email.save()
+        res.status(200).json({"msg":"Notification enabled for this mail"})
     }
     catch(err){
         console.log(err)

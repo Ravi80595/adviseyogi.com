@@ -15,7 +15,7 @@ useEffect(()=>{
     setLoading(true)
 axios.get(`${baseUrl}/user/allUser`)
     .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         setUsers(res.data)
         setLoading(false)   
     })
@@ -27,7 +27,7 @@ axios.get(`${baseUrl}/user/allUser`)
 const handleChange = (e) => {
     axios.get(`${baseUrl}/user/search/${e.target.value}`)
 .then((res)=>{
-    console.log(res)
+    // console.log(res)
     setUsers(res.data)
     })
     .catch((err)=>{

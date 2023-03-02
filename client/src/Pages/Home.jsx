@@ -15,16 +15,14 @@ const registerUser=()=>{
   const payload={
     "fullName":name
   }
-  console.log(payload)
 axios.post('http://localhost:3002/user/register',payload)
 .then((res)=>{
-  console.log(res)
   alert(res.data.msg)
   localStorage.setItem("adviseyogi",JSON.stringify(res.data.saveUser))
+  setName(" ")
 })
 .catch((err)=>{
-  console.log(err)
-  alert(err)
+  // console.log(err)
 })
 }
 
@@ -37,11 +35,10 @@ const handleChange = (e) => {
   document.querySelector("#searchBox").style.display="block"
   axios.get(`http://localhost:3002/user/search/${e.target.value}`).
   then((res)=>{
-  console.log(res)
   setUsers(res.data)
   })
   .catch((err)=>{
-  console.log(err)
+  // console.log(err)
   })
   }
 
@@ -67,7 +64,7 @@ return (
       <Box h={200} id='searchBox' display='none' mt={5} overflow="auto" p={5} w='85%' border='2px solid black'>
         {
           users && users.map(ele=>(
-            <Text onClick={()=>Singleuser(ele._id)} cursor='pointer' fontSize='20px' fontWeight='bold' >{ele.fullName}</Text>
+            <Text key={ele._id} onClick={()=>Singleuser(ele._id)} cursor='pointer' fontSize='20px' fontWeight='bold' >{ele.fullName}</Text>
             ))
           }
       </Box>
@@ -80,9 +77,9 @@ return (
           <ModalCloseButton />
             <ModalBody>
                 <Box mb={20}>
-                    <Input border='1px solid red' onChange={(e)=>setName(e.target.value)} p={5} mt='120px' placeholder='Add new IG id'/>
+                    <Input border='1px solid red' value={name} onChange={(e)=>setName(e.target.value)} p={5} mt='120px' placeholder='Add new IG id'/>
                     <Box textAlign='center' pt='20px'>
-                    <Button onClick={registerUser} p={6} bg='black' color='white'>Add</Button>
+                    <Button border='2px solid black' _hover={{color:'black',bg:'white'}} onClick={registerUser} p={6} bg='black' color='white'>Add</Button>
                     </Box>
                 </Box>
             </ModalBody>

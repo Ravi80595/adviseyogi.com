@@ -17,7 +17,7 @@ const getComments=()=>{
 setLoading(true)
 axios.get(`${baseUrl}/post/allComments`)
     .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         setPosts(res.data)
         setLoading(false)   
     })

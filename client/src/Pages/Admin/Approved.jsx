@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import {Button,Box,TableContainer,Table,Thead,Tr,Th,Tbody,Td,Spinner,Image,Flex,Text,Input,Select } from '@chakra-ui/react'
+import {Button,Box,Spinner,Flex,Text} from '@chakra-ui/react'
 import { baseUrl } from '../../Components/BaseUrl'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 
 
 
 const Approved = () => {
     const [loading,setLoading]=useState(false)
     const [posts,setPosts]=useState([])
-    const navigate=useNavigate()
+    // const navigate=useNavigate()
+
 
 useEffect(()=>{
     getComments()
@@ -20,7 +21,7 @@ const getComments=()=>{
 setLoading(true)
 axios.get(`${baseUrl}/post/unapprovedComments`)
     .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         setLoading(false)   
         setPosts(res.data)
     })
@@ -29,14 +30,11 @@ axios.get(`${baseUrl}/post/unapprovedComments`)
     })
 }    
 
-// const handleNavigate=(ele)=>{
-//     navigate(`/adminsingleuser/${ele._id}`)
-// }
 
-const approveComment=(id)=>{
-axios.put(`${baseUrl}/post/approveComments`,{postId:id})
+const approveComment=(id,name)=>{
+axios.put(`${baseUrl}/post/approveComments`,{postId:id,username:name})
 .then((res)=>{
-    console.log(res)
+    // console.log(res)
     alert("Comment Approved")
     getComments()
 })
@@ -46,7 +44,15 @@ axios.put(`${baseUrl}/post/approveComments`,{postId:id})
 }
 
 const editComment=(id)=>{
-
+  let text=prompt("Enter Edited text")
+axios.patch(`${baseUrl}/post/editComment/${id}`,{newText:text})
+.then((res)=>{
+  // console.log(res)
+  getComments()
+})
+.catch((err)=>{
+  console.log(err)
+})
 }
 
 if(loading){
@@ -69,7 +75,7 @@ return (
                 <Text pb={5} textAlign='center'>{ele.text}</Text>
                 <Flex justifyContent='center' gap={10}>
                 <Button onClick={()=>editComment(ele._id)}>Edit</Button>
-                <Button onClick={()=>approveComment(ele._id)}>Approve</Button>
+                <Button onClick={()=>approveComment(ele._id,ele.username)}>Approve</Button>
                 </Flex>
              </Box>
               ))

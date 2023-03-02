@@ -16,10 +16,9 @@ useEffect(()=>{
     
 const getSingleComments=()=>{
 setLoading(true)
-console.log(id)
 axios.get(`${baseUrl}/post/comments/${id}`)
 .then((res)=>{
-    console.log(res.data)
+    // console.log(res.data)
     setPosts(res.data)
     setName(res.data[0].username)
     setLoading(false)   

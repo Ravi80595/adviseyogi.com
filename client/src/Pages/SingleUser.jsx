@@ -1,4 +1,4 @@
-import { Box,Flex,Heading,Button,Text,useDisclosure,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody, Textarea,Spinner} from '@chakra-ui/react'
+import { Box,Flex,Heading,Button,Text,useDisclosure,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody, Textarea,Spinner, Input} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import {BiLike} from 'react-icons/bi'
 import { baseUrl } from '../Components/BaseUrl'
@@ -10,13 +10,15 @@ import MyComponent from '../Components/Date'
 
 
 const SingleUser = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+const { isOpen:iscommentOpen, onOpen:oncommentOpen, onClose:oncommentClose } = useDisclosure()
+const { isOpen:isNotifyOpen, onOpen:onNotifyOpen, onClose:onNotifyClose } = useDisclosure()
   const [comment,setComment]=useState('')
   const { _id,fullName} = JSON.parse(localStorage.getItem("adviseyogi"))
   const [loading,setLoading]=useState(false)
   const [posts,setPosts]=useState([])
   const {id}=useParams()
   const [name,setName]=useState('')
+  const [mail,setMail]=useState('')
 
 useEffect(()=>{
   getSingleComments()
@@ -24,16 +26,15 @@ useEffect(()=>{
 
 
 const getSingleComments=()=>{
-  setLoading(true)
-  console.log(id)
 axios.get(`${baseUrl}/post/comments/${id}`)
   .then((res)=>{
-      console.log(res.data)
       setPosts(res.data)
       setLoading(false)   
+      setName(res.data[0].username)
   })
   .catch((err)=>{
-      console.log(err)
+      // console.log(err)
+      setLoading(false)   
   })
 }
 
@@ -43,30 +44,39 @@ const addComment=()=>{
     userId:_id,
     username:fullName
   }
-  console.log(payload)
   axios.post(`${baseUrl}/post/addComment`,payload)
   .then((res)=>{
-    console.log(res)
+    // console.log(res)
     alert("Comment added")
     setComment(" ")
   })
   .catch((err)=>{
-    console.log(err)
+    // console.log(err)
 })
 }
 
 
 
 const likePost=(id)=>{
-  console.log("cliked",_id,id)
 axios.patch(`${baseUrl}/post/like/${id}`,{userId:_id})
 .then((res)=>{
-  console.log(res)
+  // console.log(res)
   getSingleComments()
 })
 .catch((err)=>{
   console.log(err)
 })
+}
+
+const addNotifier=()=>{
+  axios.patch(`${baseUrl}/post/addEmail`,{gmail:mail})
+  .then((res)=>{
+    // console.log(res)
+    alert(res.data.msg)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
 }
 
 if(loading){
@@ -84,11 +94,11 @@ return (
       </Link>
       <Flex justifyContent='space-around'>
         <Box w='50%'>
-            <Text textAlign='center'>Ravi Sharma</Text>
+            <Text textAlign='center'>{name}</Text>
         </Box>
         <Flex w='25%' justifyContent='space-around'>
-        <Button p={7} bg='transparent' border='2px solid black'>Notify me</Button>
-        <Button onClick={onOpen} p={7} bg='transparent' border='2px solid black'>Add Comment</Button>
+        <Button onClick={onNotifyOpen} p={7} bg='transparent' border='2px solid black'>Notify me</Button>
+        <Button  onClick={oncommentOpen} p={7} bg='transparent' border='2px solid black'>Add Comment</Button>
         </Flex>
       </Flex>
       {
@@ -108,7 +118,7 @@ return (
           </Box>
         ))
       }
-        <Modal size='3xl' isCentered isOpen={isOpen} onClose={onClose} motionPreset='slideInBottom'>
+        <Modal size='3xl' isCentered isOpen={iscommentOpen} onClose={oncommentClose} motionPreset='slideInBottom'>
         <ModalOverlay bg='blackAlpha.300'
       backdropFilter='blur(10px) hue-rotate(90deg)'/>
         <ModalContent>
@@ -119,7 +129,24 @@ return (
                 <Box mb={20}>
                     <Textarea border='1px solid red' value={comment} onChange={(e)=>setComment(e.target.value)} p={5} mt='70px' placeholder='Add your comment/advise '/>
                     <Box textAlign='center' pt='20px'>
-                    <Button onClick={addComment} p={6} bg='black' color='white'>Send</Button>
+                    <Button  border='2px solid black' _hover={{color:'black',bg:'white'}} onClick={addComment} p={6} bg='black' color='white'>Send</Button>
+                    </Box>
+                </Box>
+            </ModalBody>
+        </ModalContent>
+      </Modal>
+      <Modal size='3xl' isCentered isOpen={isNotifyOpen} onClose={onNotifyClose} motionPreset='slideInBottom'>
+        <ModalOverlay bg='blackAlpha.300'
+      backdropFilter='blur(10px) hue-rotate(90deg)'/>
+        <ModalContent>
+          <ModalCloseButton mb={9}/>
+          <ModalHeader pt={5}>Note : you will be notified for every new comment added on this particular account. 
+          </ModalHeader>
+            <ModalBody>
+                <Box mb={20}>
+                    <Input border='1px solid red' value={mail} onChange={(e)=>setMail(e.target.value)} p={5} mt='70px' placeholder='Add your comment/advise '/>
+                    <Box textAlign='center' pt='20px'>
+                    <Button onClick={addNotifier} border='2px solid black' _hover={{color:'black',bg:'white'}} p={6} bg='black' color='white'>Notify Me</Button>
                     </Box>
                 </Box>
             </ModalBody>
