@@ -37,7 +37,7 @@ const handleChange = (e) => {
 
 
 const handleNavigate=(ele)=>{
-    navigate(`/adminsingleuser/${ele._id}`)
+    navigate(`/singleuser/${ele._id}`)
   }
 
 if(loading){

@@ -4,12 +4,13 @@ import {SlLike} from 'react-icons/sl'
 import { baseUrl } from '../Components/BaseUrl'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const SingleUser = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [comment,setComment]=useState('')
-  const { _id } = JSON.parse(localStorage.getItem("adviseyogi"))
+  const { _id,fullName} = JSON.parse(localStorage.getItem("adviseyogi"))
   const [loading,setLoading]=useState(false)
   const [posts,setPosts]=useState([])
   const {id}=useParams()
@@ -35,7 +36,8 @@ axios.get(`${baseUrl}/post/comments/${id}`)
 const addComment=()=>{
   const payload={
     text:comment,
-    userId:_id
+    userId:_id,
+    username:fullName
   }
   console.log(payload)
   axios.post(`${baseUrl}/post/addComment`,payload)
@@ -45,11 +47,13 @@ const addComment=()=>{
 }
 
 return (
-    <Box>
+  <Box>
+      <Link to="/"> 
       <Flex >
       <Heading fontSize='30px' pt={5} pl={5} color='red'>Advise</Heading>
         <Heading fontSize='30px' pt={5}>Yogi</Heading>
       </Flex>
+      </Link>
       <Flex justifyContent='space-around'>
         <Box w='50%'>
             <Text textAlign='center'>Ravi Sharma</Text>
@@ -69,7 +73,7 @@ return (
             <Text>2 d</Text>
             <Flex>
             <SlLike/>
-            <Text pl={2}> 2</Text>
+            <Text pl={2}> {ele.likes.length}</Text>
             </Flex>
         </Flex>
           </Box>

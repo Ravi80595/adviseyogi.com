@@ -8,6 +8,7 @@ const currentTime=GetCurrentTime()
 const postSchema = mongoose.Schema(
     {
         userId:{type:String,required:true,},
+        username:String,
         text:String,
         likes:{type:Array,default:[]},
         approved:{type:Boolean,default:false},

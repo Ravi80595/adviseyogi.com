@@ -21,8 +21,8 @@ setLoading(true)
 axios.get(`${baseUrl}/post/unapprovedComments`)
     .then((res)=>{
         console.log(res.data)
-        setPosts(res.data)
         setLoading(false)   
+        setPosts(res.data)
     })
     .catch((err)=>{
         console.log(err)
@@ -37,7 +37,16 @@ const approveComment=(id)=>{
 axios.put(`${baseUrl}/post/approveComments`,{postId:id})
 .then((res)=>{
     console.log(res)
+    alert("Comment Approved")
+    getComments()
 })
+.catch((err)=>{
+  console.log(err)
+})
+}
+
+const editComment=(id)=>{
+
 }
 
 if(loading){
@@ -50,28 +59,21 @@ return (
       <Text w={["30%","30%","30%","25%"]} fontSize={["10px","10px","10px","20px"]}>Unapproved Comments : {posts.length}</Text>
       <Text w={["30%","30%","30%","25%"]} fontSize={["10px","10px","10px","20px"]}>Approved Comments : 0</Text>
     </Flex>
-        <TableContainer>
-          <Table size='sm'>
-            <Thead>
-              <Tr textAlign='center'>
-                <Th>Comment</Th>
-                <Th>Adding Date</Th>
-                <Th>Approve</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
     {
       posts && posts.map(ele=>(
-              <Tr cursor="pointer" _hover={{backgroundColor:"#f3f4f6"}}>
-                <Td w='30%'>{ele.text}</Td>
-                <Td>{ele.date} {ele.time}</Td>
-                <Td><Button onClick={()=>approveComment(ele._id)}>Approve</Button></Td>
-              </Tr>
+              <Box boxShadow= 'rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset' justifyContent='space-around' w='95%' p={5} m='auto' mt={10}>
+                <Flex justifyContent='space-around' pb={2}>
+                <Text>Date : {ele.date}</Text>
+                <Text>Username : {ele.username}</Text>
+                </Flex>
+                <Text pb={5} textAlign='center'>{ele.text}</Text>
+                <Flex justifyContent='center' gap={10}>
+                <Button onClick={()=>editComment(ele._id)}>Edit</Button>
+                <Button onClick={()=>approveComment(ele._id)}>Approve</Button>
+                </Flex>
+             </Box>
               ))
             }
-            </Tbody>
-          </Table>
-        </TableContainer>
   </Box>
   )
 }
