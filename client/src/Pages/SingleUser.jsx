@@ -105,7 +105,7 @@ return (
         posts && posts.map(ele=>(
       <Box borderRadius={20} fontSize="24px" p={5} m='auto' w='90%' mt={10} border='2px solid black'>
         <Text textAlign='center'>{ele.text}</Text>
-        <Flex w='45%' pt={5} justifyContent="space-around">
+        <Flex w={['45%','45%','45%','15%']} pt={5} justifyContent="space-around">
             <MyComponent props={ele}/>
             <Flex>
             {
