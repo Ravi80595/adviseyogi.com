@@ -1,3 +1,3 @@
 
 
-export const baseUrl='http://localhost:3002'
+export const baseUrl='https://amber-wombat-cuff.cyclic.app'

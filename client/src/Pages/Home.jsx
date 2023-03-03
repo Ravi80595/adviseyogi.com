@@ -3,6 +3,7 @@ import '../App.css'
 import {Box,Button,Heading,Text,Flex,Input,useDisclosure,Modal,ModalOverlay,ModalContent,ModalHeader,ModalCloseButton,ModalBody} from '@chakra-ui/react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
+import { baseUrl } from '../Components/BaseUrl'
 
 const Home = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -15,7 +16,7 @@ const registerUser=()=>{
   const payload={
     "fullName":name
   }
-axios.post('http://localhost:3002/user/register',payload)
+axios.post(`${baseUrl}/user/register`,payload)
 .then((res)=>{
   alert(res.data.msg)
   localStorage.setItem("adviseyogi",JSON.stringify(res.data.saveUser))
@@ -33,7 +34,7 @@ window.onclick=()=>{
 
 const handleChange = (e) => {
   document.querySelector("#searchBox").style.display="block"
-  axios.get(`http://localhost:3002/user/search/${e.target.value}`).
+  axios.get(`${baseUrl}/user/search/${e.target.value}`).
   then((res)=>{
   setUsers(res.data)
   })
