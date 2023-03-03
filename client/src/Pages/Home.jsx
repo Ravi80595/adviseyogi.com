@@ -49,19 +49,19 @@ const Singleuser=(id)=>{
 
 return (
     <Box border='2px solid black' m={10} h={600}>
-      <Box mt={10} ml='80%'>
+      <Box mt={10} ml={['20%','20%','20%','80%']}>
         <Button onClick={onOpen} p={7} bg='transparent' border='2px solid black'>Add new IG id</Button>
       </Box>
       <Flex justifyContent='center'>
-      <Heading fontSize='60px' pt={10} color='red'>Advise</Heading>
-        <Heading fontSize='60px' pt={10}> Yogi</Heading>
+      <Heading fontSize={['40px','40px','40px','60px']} pt={10} color='red'>Advise</Heading>
+        <Heading fontSize={['40px','40px','40px','60px']} pt={10}> Yogi</Heading>
       </Flex>
-      <Flex w='70%' m='auto' gap={5} pt={10}>
+      <Flex direction={['column','column','column','row']} w='70%' m='auto' gap={5} pt={10}>
         <Input onInput={handleChange} border='2px solid red' borderRadius={0} p={10} placeholder='Search people by Instagram id'/>
         <Button border='1px solid black' _hover={{color:'black',bg:'white'}} borderRadius={0} p={10} color='white' bg='black'>Search</Button>
       </Flex>
       <Box w='70%' m='auto' >
-      <Box h={200} id='searchBox' display='none' mt={5} overflow="auto" p={5} w='85%' border='2px solid black'>
+      <Box h={[150,150,150,200]} id='searchBox' display='none' mt={5} overflow="auto" p={5} w='85%' border='2px solid black'>
         {
           users && users.map(ele=>(
             <Text key={ele._id} onClick={()=>Singleuser(ele._id)} cursor='pointer' fontSize='20px' fontWeight='bold' >{ele.fullName}</Text>

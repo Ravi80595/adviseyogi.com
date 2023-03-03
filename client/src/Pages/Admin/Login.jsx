@@ -22,7 +22,7 @@ const handleLogin=()=>{
 
 
 return (
-  <Box textAlign='center' w='40%' m='auto' mt={10}>
+  <Box textAlign='center' w={['90%','90%','90%','40%']} m='auto' mt={10}>
   <Button mb={2} _hover={{color:'black'}} w='100%' bg='#720000' color='white'>Admin Login</Button>
   <Box boxShadow= 'rgba(0, 0, 0, 0.35) 0px 5px 15px' p={10} >
       <Input value={email} onChange={(e)=>setEmail(e.target.value)} p={5} m={3} placeholder='Enter email'/>

@@ -94,19 +94,18 @@ return (
       </Link>
       <Flex justifyContent='space-around'>
         <Box w='50%'>
-            <Text textAlign='center'>{name}</Text>
         </Box>
-        <Flex w='25%' justifyContent='space-around'>
+        <Flex w={['100%','100%','100%','25%']} gap={2} m={[5,5,5,0]} justifyContent='space-around'>
         <Button onClick={onNotifyOpen} p={7} bg='transparent' border='2px solid black'>Notify me</Button>
         <Button  onClick={oncommentOpen} p={7} bg='transparent' border='2px solid black'>Add Comment</Button>
         </Flex>
       </Flex>
+      <Text fontSize='25px' fontWeight='bold' textAlign='center'>{name}</Text>
       {
         posts && posts.map(ele=>(
       <Box borderRadius={20} fontSize="24px" p={5} m='auto' w='90%' mt={10} border='2px solid black'>
-        <Text>{ele.text}</Text>
-        <Flex w='15%' pt={5} justifyContent="space-around">
-            {/* <Text>d</Text> */}
+        <Text textAlign='center'>{ele.text}</Text>
+        <Flex w='45%' pt={5} justifyContent="space-around">
             <MyComponent props={ele}/>
             <Flex>
             {

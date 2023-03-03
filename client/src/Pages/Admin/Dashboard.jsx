@@ -45,7 +45,7 @@ return (
         <Box id='rhsBox' w='84%' ml='16%' h='auto'> 
         <Box id='navbarBox'  p='0px 40px'>
         <Flex justifyContent='space-between'>
-            <Text pt={3} mb={3} fontWeight='bold'>Welcome To Dashboard</Text>
+            <Text pt={3} mb={3} fontWeight='bold' fontSize={['10px','10px','10px','20px']}>Welcome To Dashboard</Text>
             <Button mt={2} onClick={handleLogout}>Logout</Button>
         </Flex>
      </Box>
