@@ -13,7 +13,7 @@ const SingleUser = () => {
 const { isOpen:iscommentOpen, onOpen:oncommentOpen, onClose:oncommentClose } = useDisclosure()
 const { isOpen:isNotifyOpen, onOpen:onNotifyOpen, onClose:onNotifyClose } = useDisclosure()
   const [comment,setComment]=useState('')
-  const { _id,fullName} = JSON.parse(localStorage.getItem("adviseyogi"))
+  const { _id,fullName} = JSON.parse(localStorage.getItem("adviseyogi")) || []
   const [loading,setLoading]=useState(false)
   const [posts,setPosts]=useState([])
   const {id}=useParams()

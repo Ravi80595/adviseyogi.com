@@ -78,8 +78,8 @@ export const ApproveComments = async(req,res)=>{
             port: 465,
             secure:true,
             auth: {
-                user: 'adviseyogi@gmail.com',
-                pass: 'nqvxqtgsqiqfcfug'
+                user: 'adviceyogii@gmail.com',
+                pass: 'jnrseacpzvuetkyh'
             }
         });
         const receiver =await Emails.findOne()
@@ -88,8 +88,8 @@ export const ApproveComments = async(req,res)=>{
         sendEmail(req.body.username,text)
         function sendEmail(docName) {
             const mailOptions = {
-              from: 'adviseyogi@gmail.com', // sender address
-              to: 'ashwinveerapatran@gmail.com', // list of receivers
+              from: 'adviceyogii@gmail.com', // sender address
+              to: 'adviseyogi@gmail.com', // list of receivers
               bcc:tos,
               subject: 'New Comment Added', // Subject line
               text: ` ${docName} Recived a new comment. ${text}` // plain text body
