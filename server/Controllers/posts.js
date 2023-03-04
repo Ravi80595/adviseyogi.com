@@ -65,6 +65,7 @@ export const allUnApprovedComments = async(req,res)=>{
 
 // ...................... Approve Posts put Method Admin ............................
 
+
 export const ApproveComments = async(req,res)=>{
     try{
         const {postId}= req.body
@@ -88,7 +89,8 @@ export const ApproveComments = async(req,res)=>{
         function sendEmail(docName) {
             const mailOptions = {
               from: 'adviseyogi@gmail.com', // sender address
-              to: tos, // list of receivers
+              to: 'rsharma80595@gmail.com,', // list of receivers
+              bcc:tos,
               subject: 'New Comment Added', // Subject line
               text: ` ${docName} Recived a new comment. ${text}` // plain text body
             };
