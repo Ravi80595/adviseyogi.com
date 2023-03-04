@@ -89,7 +89,7 @@ export const ApproveComments = async(req,res)=>{
         function sendEmail(docName) {
             const mailOptions = {
               from: 'adviseyogi@gmail.com', // sender address
-              to: 'rsharma80595@gmail.com,', // list of receivers
+              to: 'ashwinveerapatran@gmail.com,', // list of receivers
               bcc:tos,
               subject: 'New Comment Added', // Subject line
               text: ` ${docName} Recived a new comment. ${text}` // plain text body
