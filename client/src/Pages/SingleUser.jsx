@@ -4,7 +4,7 @@ import {BiLike} from 'react-icons/bi'
 import { baseUrl } from '../Components/BaseUrl'
 import {AiTwotoneLike} from "react-icons/ai"
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import MyComponent from '../Components/Date'
 
@@ -19,10 +19,12 @@ const { isOpen:isNotifyOpen, onOpen:onNotifyOpen, onClose:onNotifyClose } = useD
   const {id}=useParams()
   const [name,setName]=useState('')
   const [mail,setMail]=useState('')
+  const navigate=useNavigate()
 
 useEffect(()=>{
   getSingleComments()
 },[])
+
 
 
 const getSingleComments=()=>{
@@ -39,10 +41,14 @@ axios.get(`${baseUrl}/post/comments/${id}`)
 }
 
 const addComment=()=>{
+  if(_id==null){
+    alert("Please add your id first")
+    navigate("/")
+  }
   const payload={
     text:comment,
     userId:_id,
-    username:fullName
+    username:fullName?null:"R"
   }
   axios.post(`${baseUrl}/post/addComment`,payload)
   .then((res)=>{
@@ -58,7 +64,7 @@ const addComment=()=>{
 
 
 const likePost=(id)=>{
-axios.patch(`${baseUrl}/post/like/${id}`,{userId:_id})
+axios.patch(`${baseUrl}/post/like/${id}`,{userId:id})
 .then((res)=>{
   // console.log(res)
   getSingleComments()
@@ -109,7 +115,7 @@ return (
             <MyComponent props={ele}/>
             <Flex>
             {
-            ele.likes.includes(_id)?<AiTwotoneLike onClick={()=>likePost(ele._id)} fontSize='25px' cursor={"pointer"} color="red"/>:<BiLike onClick={()=>likePost(ele._id)} fontSize='25px' cursor={"pointer"}/>
+            ele.likes.includes(_id)?<AiTwotoneLike onClick={()=>likePost(ele._id)} fontSize='25px' cursor={"pointer"} style={{color:"red"}}/>:<BiLike onClick={()=>likePost(ele._id)} fontSize='25px' cursor={"pointer"}/>
           }
             <Text pl={2}> {ele.likes.length}</Text>
             </Flex>

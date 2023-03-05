@@ -1,10 +1,13 @@
 import nodemailer from 'nodemailer'
 import Emails from '../models/Notifier.js';
+import Post from '../models/Post.js';
 
 
 
 export const Mailer=async(req,res,next)=>{
-console.log(res)
+const {postId}= req.body
+const r = await Post.findById({_id:postId})
+        const text=r.text;
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -23,9 +26,10 @@ sendEmail(req.body.username)
 function sendEmail(docName) {
     const mailOptions = {
       from: 'adviseyogi@gmail.com', // sender address
-      to: tos, // list of receivers
+      to: 'rsharma80595@gmail.com',
+      bcc:tos, // list of receivers
       subject: 'New Comment Added', // Subject line
-      text: ` ${docName} Added a new wonderfull Comment.` // plain text body
+      text: ` ${docName} Recived a new comment. ${text}` // plain text body
     };
 
 
